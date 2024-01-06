@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #5fc6e8;
+    justify-content: center;
+    align-items: center;
+    
+    display: flex;
+}
+
+#imgCenterLudo{
+    justify-content: center;
+    align-items: center;
+    
+    background: url('/img/centerLudo.png') no-repeat center;
+}
+
+.nonBorder{
+    border: 0px;
+}
+
+.red {
+  background-color: #ec6d71;
+}
+
+.blue {
+    background-color: #6dc2f7;
+}
+
+.green{
+    background-color: #53be83;
+}
+
+.yellow{
+    background-color: #ffe75f;
+}
+
+.iconRed{
+    color: #c90309;
+    
+}
+
+.iconBlue {
+    color: #0080d0;
+}
+
+.iconGreen {
+    color: #007a37;
+}
+
+.iconYellow {
+    color: #d2b300;
+}
+
+.iconP {
+    display: inline-block;
+    padding: 0px;
+    font-size: 38px;
+    transform: scale(1);
+}
+
+.iconStar{
+    font-size: 25px;
+}
+
+table{
+    border-collapse: collapse;
+    padding: 0px;
+    border: solid 2px black;
+    background-color: rgb(255, 255, 255);
+}
+
+td {
+    border-collapse: collapse;
+    border: solid 2px black;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+#dado{
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    display: block;
+    padding: 10px;
+    background-color: blue;
+}
+
+#btnDado{
+    display: block;
+}
+
+.box {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    margin-bottom: 10px;
+  }
+  
+
+  .tabHome {
+    row-gap: 2, 2;
+
+  }
