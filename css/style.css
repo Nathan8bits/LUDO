@@ -15,16 +15,42 @@ body {
     display: flex;
 }
 
-#imgCenterLudo{
-    justify-content: center;
-    align-items: center;
-    
+.imgCenterLudo{
     background: url('/img/centerLudo.png') no-repeat center;
+    background-size: cover;
 }
+
+
+.imgSetaDireita{
+    background: url('/img/setaDireita.png') no-repeat center;
+    background-size: cover;
+}
+
+.imgSetaEsquerda{
+    background: url('/img/setaEsquerda.png') no-repeat center;
+    background-size: cover;
+}
+
+.imgSetaCima{
+    background: url('/img/setaCima.png') no-repeat center;
+    background-size: cover;
+}
+
+.imgSetaBaixo{
+    background: url('/img/setaBaixo.png') no-repeat center;
+    background-size: cover;
+}
+
+.imgStar{
+    background: url('/img/iconStar.png') no-repeat center;
+    background-size: cover;
+}
+
 
 .nonBorder{
     border: 0px;
 }
+
 
 .red {
   background-color: #ec6d71;
@@ -62,12 +88,12 @@ body {
 .iconP {
     display: inline-block;
     padding: 0px;
-    font-size: 38px;
+    font-size: 200%;
     transform: scale(1);
 }
 
 .iconStar{
-    font-size: 25px;
+    font-size: 200%;
 }
 
 table{
@@ -99,16 +125,3 @@ td {
 #btnDado{
     display: block;
 }
-
-.box {
-    width: 20px;
-    height: 20px;
-    background-color: blue;
-    margin-bottom: 10px;
-  }
-  
-
-  .tabHome {
-    row-gap: 2, 2;
-
-  }

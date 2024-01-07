@@ -34,9 +34,16 @@ function mudarPosicao (peca, position) {
 //CLIQUE DAS PEÇAS
 var pecas = document.querySelectorAll('.iconP')
 
-td[66].appendChild(pecas[1])
+//td[66].appendChild(pecas[1])
 
 //td[6].appendChild(pecas[1])
+/*
+for(let i = 0; i < td.length; i++) {
+  td[i].innerHTML = `${i}`
+}
+*/
+
+//td[84].appendChild(pecas[1])
 
   for (let i = 0; i < pecas.length; i++) {
     pecas[i].addEventListener("click", function () {
