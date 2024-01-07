@@ -1,0 +1,20 @@
+{
+  "name": "tabuleiroludohtml",
+  "version": "1.0.0",
+  "description": "recriando o jogo Ludo com a adição de bots realmente eficazes.",
+  "main": "./js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nathan8bits/LUDO.git"
+  },
+  "author": "Nathan8bits",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Nathan8bits/LUDO/issues"
+  },
+  "homepage": "https://github.com/Nathan8bits/LUDO#readme"
+}
