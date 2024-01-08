@@ -32,7 +32,7 @@ trajetoria[1] = [
                 51, 40, 33, 26, 18, 6, 7, 19, 27, 34, 41, 52, 66]
 
 //trajetoria do amarelo
-trajetoria[2] = [
+trajetoria[3] = [
                 113, 137, 130, 123, 115, 103, 90, 89, 88, 87, 86, 85, 
                 73, 60, 61, 62, 63, 64, 65, 51, 40, 33, 26, 18, 6, 
                 7, 8, 20, 28, 35, 42, 53, 67, 68, 69, 70, 71, 72, 
@@ -40,7 +40,7 @@ trajetoria[2] = [
                 149, 138, 131, 124, 116, 104, 66]
 
 //trajetoria do verde
-trajetoria[3] = [
+trajetoria[2] = [
                 119, 95, 94, 93, 92, 91, 105, 117, 125, 132, 139, 150,
                 149, 148, 137, 130, 123, 115, 103, 90, 89, 88, 87, 86, 85,
                 73, 60, 61, 62, 63, 64, 65, 51, 40, 33, 26, 18, 6, 7, 8, 20,
@@ -60,24 +60,25 @@ for(let i = 0; i < 16; i++) {
     peca[i] = new Peca(1, p, trajetoria[1][0])
   }
   else if(i >= 8 && i < 12) {
-    //p = pecas[i+4]
+    p = pecas[i+4]
     peca[i] = new Peca(2, p, trajetoria[2][0])
   }
   else if(i >= 12 && i < 16) {
-    //p = pecas[i-4]
+    p = pecas[i-4]
     peca[i] = new Peca(3, p, trajetoria[1][0])
   }
 
 }
 
 
-peca[0].trajetoria = 2
-mudarPosicao(0)
-peca[1].trajetoria = 2
-mudarPosicao(1)
-
+peca[8].trajetoria = 2
+mudarPosicao(8)
+peca[12].trajetoria = 2
+mudarPosicao(12)
+/*
 peca[2].trajetoria = 2
 mudarPosicao(2)
+*/
 /*
 peca[3].trajetoria = 2
 mudarPosicao(3)
@@ -163,7 +164,6 @@ btnDado.addEventListener('click', function ()
   }
   
 })
-
 
 //CLIQUE DAS PEÇAS
 for (let index = 0; index < pecas.length; index++) 
