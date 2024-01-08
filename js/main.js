@@ -49,8 +49,7 @@ trajetoria[2] = [
 var peca = [16]
 
 /* -- INICIANDO PECAS -- */
-for(let i = 0; i < 16; i++) {
-  
+for(let i = 0; i < 16; i++) {  
   let p = pecas[i]
 
   if(i < 4) {
@@ -67,9 +66,7 @@ for(let i = 0; i < 16; i++) {
     p = pecas[i-4]
     peca[i] = new Peca(3, p, trajetoria[1][0])
   }
-
 }
-
 
 peca[8].trajetoria = 1
 mudarPosicao(8)
@@ -95,7 +92,6 @@ console.log(p)
 //console.log(trajetoria)
 //console.log(jogador)
  /* -- INICIANDO PECAS -- */
-
 btnDado.addEventListener('click', function () 
 {    
   if(dadoLivre) {
@@ -238,7 +234,6 @@ function jogadorPecasDisponivel(index) //verifica se o jogador[index]
   return resposta
 }
 
-
 function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[index]
 {                                     //estão fora da Home e no mesmo lugar
   let pF = []
@@ -277,7 +272,6 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   else {
     return false
   }
-
 }
 
 function passarVez(jogadorDaVez){
