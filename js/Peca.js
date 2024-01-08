@@ -3,12 +3,14 @@ export class Peca {
     _componenteHTML
     _posicao
     _trajetoria
+    _livre
 
     constructor(jogador, componenteHTML ,posicao) {
         this._jogador = jogador
         this._componenteHTML = componenteHTML
         this._posicao = posicao
         this._trajetoria = 0
+        this._livre = false
     }
 
     set jogador(novoJogador) {
@@ -38,5 +40,13 @@ export class Peca {
 
     get componenteHTML(){
         return this._componenteHTML
+    }
+
+    set livre(novaResposta) {
+        this._livre = novaResposta
+    }
+
+    get livre() {
+        return this._livre
     }
 }

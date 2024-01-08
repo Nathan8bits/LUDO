@@ -127,6 +127,8 @@ td {
     border-collapse: collapse;
     border: solid 2px black;
     width: 6vh;
+    min-width: 10px;
+    min-height: 10px;
     height: 6vh;
     text-align: center;
     align-items: center;
