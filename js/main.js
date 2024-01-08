@@ -71,18 +71,18 @@ for(let i = 0; i < 16; i++) {
 }
 
 
-peca[8].trajetoria = 2
+peca[8].trajetoria = 1
 mudarPosicao(8)
-peca[12].trajetoria = 2
+
+peca[12].trajetoria = 1
 mudarPosicao(12)
-/*
-peca[2].trajetoria = 2
+
+peca[2].trajetoria = 1
 mudarPosicao(2)
-*/
-/*
-peca[3].trajetoria = 2
-mudarPosicao(3)
-*/
+
+peca[5].trajetoria = 1
+mudarPosicao(5)
+
 
 console.log(peca, trajetoria, jogador)
 
