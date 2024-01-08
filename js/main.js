@@ -3,6 +3,7 @@ import {Peca} from './Peca.js'
 var btnDado = document.querySelector("#btnDado")
 var dado = document.querySelector("#valorDado")
 var valorDado = 0
+var dadoLivre = true
 var td = document.querySelectorAll("td")
 var pecas = document.querySelectorAll('.iconP')
 
@@ -97,12 +98,13 @@ console.log(p)
 
 btnDado.addEventListener('click', function () 
 {    
-  if( valorDado == 0) {
+  if(dadoLivre) {
     dado.value = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
     valorDado = dado.value
     dado.innerHTML = dado.value
-    console.log("clicou btnDado: ", valorDado)
+    dadoLivre = false
+    console.log(`clicou btnDado: ${valorDado}. dadoLivre:`, dadoLivre)
   
     let jogadorDaVez = 0
     while (jogador[jogadorDaVez] == false) //esta verificando qual jogador ta na vez
@@ -217,7 +219,9 @@ function mudarPosicao(index) //coloca peca[index] na posicao equivalente ao sua 
   peca[index].trajetoria = t
   peca[index].posicao = trajetoria[peca[index].jogador][peca[index].trajetoria]
   td[peca[index].posicao].appendChild(peca[index].componenteHTML)
-  valorDado = 0
+  
+  dadoLivre = true
+  console.log('dadoLivre: ', dadoLivre)
 }
 
 function jogadorPecasDisponivel(index) //verifica se o jogador[index] 
@@ -246,7 +250,7 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   for(let i = 0; i < 16; i++) {
     if(peca[i].jogador == index && peca[i].trajetoria > 0) 
     {//peças fora
-      pF[i] = peca[i].trajetoria
+      pF[tamF] = peca[i].trajetoria
       tamF++
     }
     else if(peca[i].jogador == index && peca[i].trajetoria == 0)
@@ -263,7 +267,11 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   let preposicaoD = pD.every(element => element == d)
   console.log(`há ${pD.length} peças dentro da home:`, preposicaoD)
 
-  if(preposicaoF && preposicaoD) {
+  if(jogadorPecasDisponivel(index) == 1) {
+    console.log('so ha uma peça fora da home')
+    return false
+  }
+  else if(preposicaoF && preposicaoD) {
     return true
   }
   else {
