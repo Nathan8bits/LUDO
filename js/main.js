@@ -3,7 +3,6 @@ import {Peca} from './Peca.js'
 var btnDado = document.querySelector("#btnDado")
 var dado = document.querySelector("#valorDado")
 var valorDado = 0
-var dadoDisponivel = true
 var td = document.querySelectorAll("td")
 var pecas = document.querySelectorAll('.iconP')
 
@@ -98,71 +97,72 @@ console.log(p)
 
 btnDado.addEventListener('click', function () 
 {    
-  dado.value = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
-
-  valorDado = dado.value
-  dado.innerHTML = dado.value
-  console.log("clicou btnDado: ", valorDado)
-
-  let jogadorDaVez = 0
-  while (jogador[jogadorDaVez] == false) //esta verificando qual jogador ta na vez
-  {
-    jogadorDaVez++
-  }
-    
-  let disponivel = jogadorPecasDisponivel(jogadorDaVez)
-
-  console.log(`jogador: ${jogadorDaVez}. disponiveis: ${disponivel}`)
-
-  if(jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
-  {
-    console.log('passou a vez')
-    //passando a vez para o proximo jogador
-    passarVez(jogadorDaVez)
-  }
-  else if (jogador[jogadorDaVez] && valorDado == 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
-  {
-    console.log('tirei uma peça da home')
-    let p
-    for(let i = 0; i < 16; i++)
-    {
-      if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria == 0) 
-      {
-        p = i
-      }
-    }
-    valorDado = 1 //tirar uma peça da Home
-    mudarPosicao(p)
-  }
-  else if (jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 1) 
-  { //move unica peça disponivel
-    console.log('so tem uma peça pra mover')
-    let p
-    for(let i = 0; i < 16; i++)
-    {
-      if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
-      {
-        p = i
-      }
-    }
-    mudarPosicao(p)
-    passarVez(jogadorDaVez)
-  }  
-  else if(jogador[jogadorDaVez] && todasPecasMesmoLugar(jogadorDaVez)) 
-  { //move a primeira peça encontrada
-    console.log('todas estavam na mesma casa')
-    let p
-    for(let i = 0; i < 16; i++)
-    {
-      if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
-      {
-        p = i
-      }
-    }
-    mudarPosicao(p)
-    passarVez(jogadorDaVez)//passar a vez
-  }
+  if( valorDado == 0) {
+    dado.value = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
+    valorDado = dado.value
+    dado.innerHTML = dado.value
+    console.log("clicou btnDado: ", valorDado)
+  
+    let jogadorDaVez = 0
+    while (jogador[jogadorDaVez] == false) //esta verificando qual jogador ta na vez
+    {
+      jogadorDaVez++
+    }
+      
+    let disponivel = jogadorPecasDisponivel(jogadorDaVez)
+  
+    console.log(`jogador: ${jogadorDaVez}. disponiveis: ${disponivel}`)
+  
+    if(jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
+    {
+      console.log('passou a vez')
+      //passando a vez para o proximo jogador
+      passarVez(jogadorDaVez)
+    }
+    else if (jogador[jogadorDaVez] && valorDado == 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
+    {
+      console.log('tirei uma peça da home')
+      let p
+      for(let i = 0; i < 16; i++)
+      {
+        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria == 0) 
+        {
+          p = i
+        }
+      }
+      valorDado = 1 //tirar uma peça da Home
+      mudarPosicao(p)
+    }
+    else if (jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 1) 
+    { //move unica peça disponivel
+      console.log('so tem uma peça pra mover')
+      let p
+      for(let i = 0; i < 16; i++)
+      {
+        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
+        {
+          p = i
+        }
+      }
+      mudarPosicao(p)
+      passarVez(jogadorDaVez)
+    }  
+    else if(jogador[jogadorDaVez] && todasPecasMesmoLugar(jogadorDaVez)) 
+    { //move a primeira peça encontrada
+      console.log('todas estavam na mesma casa')
+      let p
+      for(let i = 0; i < 16; i++)
+      {
+        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
+        {
+          p = i
+        }
+      }
+      mudarPosicao(p)
+      passarVez(jogadorDaVez)//passar a vez
+    }
+  }
 })
 
 //CLIQUE DAS PEÇAS
