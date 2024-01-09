@@ -16,6 +16,8 @@ for(let i = 0; i < 4; i++) {
 }
 jogador[0] = true
 
+var casasSeguras = [61, 26, 20, 70, 95, 132, 137, 87]
+
 //trajetoria do azul
 trajetoria[0] = [16, 61, 62, 63, 64, 65, 51, 40, 33, 26, 
                 18, 6, 7, 8, 20, 28, 35, 42, 53, 67, 68,
@@ -68,7 +70,8 @@ for(let i = 0; i < 16; i++) {
   }
 }
 
-peca[8].trajetoria = 1
+/*  posicionando peças para testes
+peca[8].trajetoria = 2
 mudarPosicao(8)
 
 peca[12].trajetoria = 1
@@ -77,20 +80,12 @@ mudarPosicao(12)
 peca[2].trajetoria = 1
 mudarPosicao(2)
 
-peca[5].trajetoria = 1
+peca[5].trajetoria = 13
 mudarPosicao(5)
-
+*/
 
 console.log(peca, trajetoria, jogador)
 
-var p = []
-for(let i = 0; i < 16; i ++){
-  p[i] = peca[i].livre
-}
-console.log(p)
-
-//console.log(trajetoria)
-//console.log(jogador)
  /* -- INICIANDO PECAS -- */
 btnDado.addEventListener('click', function () 
 {    
@@ -98,6 +93,7 @@ btnDado.addEventListener('click', function ()
     dado.value = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
     valorDado = dado.value
+    //valorDado = 2  //definindo um valor fixo para o dado para testes
     dado.innerHTML = dado.value
     dadoLivre = false
     console.log(`clicou btnDado: ${valorDado}. dadoLivre:`, dadoLivre)
@@ -110,16 +106,18 @@ btnDado.addEventListener('click', function ()
       
     let disponivel = jogadorPecasDisponivel(jogadorDaVez)
   
-    console.log(`jogador: ${jogadorDaVez}. disponiveis: ${disponivel}`)
+    console.log(`vez do jogador: ${jogadorDaVez}. peças disponiveis: ${disponivel}`)
   
+    // condições para o movimento automatico das peças do jogador da vez
     if(jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
     {
-      console.log('passou a vez')
       //passando a vez para o proximo jogador
-      passarVez(jogadorDaVez)
+      dadoLivre = true
+      console.log('dado livre: ', dadoLivre)
+      passarVez()
     }
     else if (jogador[jogadorDaVez] && valorDado == 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
-    {
+    {//move a prieira peça encontrada
       console.log('tirei uma peça da home')
       let p
       for(let i = 0; i < 16; i++)
@@ -144,7 +142,7 @@ btnDado.addEventListener('click', function ()
         }
       }
       mudarPosicao(p)
-      passarVez(jogadorDaVez)
+      passarVez()
     }  
     else if(jogador[jogadorDaVez] && todasPecasMesmoLugar(jogadorDaVez)) 
     { //move a primeira peça encontrada
@@ -158,7 +156,7 @@ btnDado.addEventListener('click', function ()
         }
       }
       mudarPosicao(p)
-      passarVez(jogadorDaVez)//passar a vez
+      passarVez()//passar a vez
     }
   }
 })
@@ -168,7 +166,7 @@ for (let index = 0; index < pecas.length; index++)
   {
   peca[index].componenteHTML.addEventListener("click", function () 
   {
-    if(jogador[peca[index].jogador] && valorDado > 0 &&peca[index].trajetoria + valorDado <= 57) 
+    if(jogador[peca[index].jogador] && !dadoLivre && peca[index].trajetoria + valorDado <= 57) 
     {
       console.log(`clicou na peça: ${index},
       jogador: ${peca[index].jogador},
@@ -176,7 +174,7 @@ for (let index = 0; index < pecas.length; index++)
       trajetoria: ${peca[index].trajetoria}.`)
 
     
-      if(peca[index].trajetoria == 0 && valorDado == 6) //a peça está bloqueda mais o dado deu 6?
+      if(peca[index].trajetoria == 0 && valorDado == 6) //tirar um apeça da Home e nao passa a vez
       { 
         valorDado = 1
         mudarPosicao(index)
@@ -185,19 +183,14 @@ for (let index = 0; index < pecas.length; index++)
       { 
         mudarPosicao(index)
       }    
-      else if(peca[index].trajetoria != 0 && valorDado != 6) 
+      //else if(peca[index].trajetoria != 0 && valorDado != 6) 
+      else //jogada comum dado != 6 e peça.trajetoria != 0
       {
         mudarPosicao(index)
-        //passando a vez para o proximo jogador
-        let j = peca[index].jogador
-        jogador[j] = false
-        j++
-        j = j % 4
-        jogador[j] = true
 
-        console.log('passou a vez')
+        passarVez()
       }
-    console.log(jogador)
+      console.log(jogador)
     }  
   });
 }
@@ -218,6 +211,7 @@ function mudarPosicao(index) //coloca peca[index] na posicao equivalente ao sua 
   
   dadoLivre = true
   console.log('dadoLivre: ', dadoLivre)
+  mesmaCasa(index)
 }
 
 function jogadorPecasDisponivel(index) //verifica se o jogador[index] 
@@ -235,8 +229,8 @@ function jogadorPecasDisponivel(index) //verifica se o jogador[index]
 }
 
 function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[index]
-{                                     //estão fora da Home e no mesmo lugar
-  let pF = []
+{                                     //estão fora da Home e no mesmo lugar 
+  let pF = []                         //ou valorDado !=6 e todas as peças q n estao na home estao no mesmo lugar
   let pD = []
   
   let tamF = 0
@@ -249,24 +243,25 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
       tamF++
     }
     else if(peca[i].jogador == index && peca[i].trajetoria == 0)
-    {//peças dentro
+    {//peças na home
       pD[tamD] = peca[i].trajetoria
       tamD++
     }
   }
   let f = pF[0]
-  let preposicaoF = pF.every(element => element == f)
+  let preposicaoF = pF.every(element => element == f)//verfica se todos os elementos de pF sao iguais a f, return true ou false
   console.log(`todas as ${pF.length} peças de fora estao na msm casa: `, preposicaoF)
 
-  let d = pD[0]
-  let preposicaoD = pD.every(element => element == d)
-  console.log(`há ${pD.length} peças dentro da home:`, preposicaoD)
+  //let d = pD[0]
+  //let preposicaoD = pD.every(element => element == d)//verfica se todos os elementos de pD sao iguais a d, return true ou false
+  console.log(`há ${pD.length} peças dentro da home`)
 
   if(jogadorPecasDisponivel(index) == 1) {
     console.log('so ha uma peça fora da home')
     return false
   }
-  else if(preposicaoF && preposicaoD) {
+  //else if(preposicaoF && preposicaoD) {
+  else if(preposicaoF) {
     return true
   }
   else {
@@ -274,10 +269,102 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   }
 }
 
+
+/*
 function passarVez(jogadorDaVez){
-  jogador[jogadorDaVez] = false
+    jogador[jogadorDaVez] = false
     jogadorDaVez++
     jogadorDaVez = jogadorDaVez % 4
     jogador[jogadorDaVez] = true
+    console.log('passou a vez')
     console.log(jogador)
+}
+*/
+
+function passarVez(){
+  let jogadorDaVez
+  
+  for(let i = 0; i < jogador.length; i++) //verificando quem é o jogador da vez
+  {
+    if(jogador[i]) {
+      jogadorDaVez = i
+    }
+  }
+  jogador[jogadorDaVez] = false
+  jogadorDaVez++
+  jogadorDaVez = jogadorDaVez % 4
+  jogador[jogadorDaVez] = true
+  console.log('passou a vez')
+  console.log(jogador)
+}
+
+
+function resetarPosicao(peca) //faz a peça q foi passada pra ela voltar pra home
+{
+  peca.trajetoria = 0
+  peca.posicao = trajetoria[peca.jogador][peca.trajetoria]
+  td[peca.posicao].appendChild(peca.componenteHTML)
+
+  dadoLivre = true
+}
+
+function mesmaCasa(index) {
+  let pecasAdvMesmaCasa = []
+  let tam = 0
+
+  for(let i = 0; i < 16; i++){
+    if(index != i 
+      && peca[index].posicao == peca[i].posicao 
+      && peca[index].jogador != peca[i].jogador 
+      && seguranca(peca[index].posicao) == false) 
+    {
+      pecasAdvMesmaCasa[tam] = peca[i]
+      tam++
+
+        //zerando as peças adversarias q estao na mesma casa, fazendoa-as voltar pra home
+      resetarPosicao(peca[i])
+      console.log(`peça ${index} resetou a peça ${i}. posicao: ${peca[i].posicao}`)
+    }
+  }
+  console.log(`havia ${pecasAdvMesmaCasa.length} peças adversarias na casa: ${peca[index].posicao}. Sao elas: `, pecasAdvMesmaCasa)
+
+  if(tam > 0) // nao passa a vez se comer uma peça
+  {
+    console.log('nao passou a vez')
+    
+    let jogadorDaVez
+    for(let i = 0; i < jogador.length; i++) {
+      if(jogador[i]) {
+        jogador[i] = false
+        jogadorDaVez =i
+      }
+    }
+
+    if(jogadorDaVez > 0) {
+      jogadorDaVez--
+    } else {
+      jogadorDaVez = jogador.length - 1 //vez do ultimo jogador
+    }
+    jogador[jogadorDaVez] = true
+    console.log(jogador)
+
+  }
+}
+
+
+function seguranca(posicao){ //returna true se essa casa for safe
+  
+  let retorno = false
+
+  for(let i = 0; i < 8; i++)
+  {
+    if(posicao == casasSeguras[i]) {
+      retorno = true
+    }
+  }
+
+  
+  console.log(`casa ${posicao} é segura: ${retorno} `)
+
+  return retorno
 }
