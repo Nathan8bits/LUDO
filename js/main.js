@@ -1,6 +1,7 @@
 import {Peca} from './Peca.js'
 
 var btnDado = document.querySelector("#btnDado")
+var divDado = document.querySelector("#dado")
 var dado = document.querySelector("#valorDado")
 var valorDado = 0
 var dadoLivre = true
@@ -14,9 +15,11 @@ var jogador = [4]
 for(let i = 0; i < 4; i++) {
   jogador[i] = false
 }
-jogador[0] = true
+//jogador[0] = true
+jogador[Math.floor((Math.random()*4))] = true
+passarVez()
 
-var casasSeguras = [61, 26, 20, 70, 95, 132, 137, 87]
+var casasSeguras = [61, 26, 20, 70, 95, 132, 137, 87, 66]
 
 //trajetoria do azul
 trajetoria[0] = [16, 61, 62, 63, 64, 65, 51, 40, 33, 26, 
@@ -48,14 +51,14 @@ trajetoria[2] = [
                 73, 60, 61, 62, 63, 64, 65, 51, 40, 33, 26, 18, 6, 7, 8, 20,
                 28, 35, 42, 53, 67, 68, 69, 70, 71, 72, 84, 83, 82, 81, 80, 79, 66]
 
-var peca = [16]
+var peca = [pecas.length]
 
 /* -- INICIANDO PECAS -- */
-for(let i = 0; i < 16; i++) {  
+for(let i = 0; i < pecas.length; i++) {  
   let p = pecas[i]
 
   if(i < 4) {
-    peca[i] = new Peca(0, p, trajetoria[0][0])  
+    peca[i] = new Peca(0, p, trajetoria[0][0])
   }
   else if(i >= 4 && i < 8) {
     peca[i] = new Peca(1, p, trajetoria[1][0])
@@ -70,17 +73,23 @@ for(let i = 0; i < 16; i++) {
   }
 }
 
-/*  posicionando peças para testes
-peca[8].trajetoria = 2
+/*  posicionando peças para testes 
+peca[8].trajetoria = 1
 mudarPosicao(8)
 
 peca[12].trajetoria = 1
 mudarPosicao(12)
 
+peca[0].trajetoria = 1
+mudarPosicao(0)
+peca[1].trajetoria = 1
+mudarPosicao(1)
 peca[2].trajetoria = 1
 mudarPosicao(2)
+peca[3].trajetoria = 1
+mudarPosicao(3)
 
-peca[5].trajetoria = 13
+peca[5].trajetoria = 14
 mudarPosicao(5)
 */
 
@@ -90,11 +99,10 @@ console.log(peca, trajetoria, jogador)
 btnDado.addEventListener('click', function () 
 {    
   if(dadoLivre) {
-    dado.value = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
+    valorDado = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
-    valorDado = dado.value
     //valorDado = 2  //definindo um valor fixo para o dado para testes
-    dado.innerHTML = dado.value
+    dado.innerHTML = valorDado
     dadoLivre = false
     console.log(`clicou btnDado: ${valorDado}. dadoLivre:`, dadoLivre)
   
@@ -220,7 +228,7 @@ function jogadorPecasDisponivel(index) //verifica se o jogador[index]
 
   for(let i = 0; i < 16; i++)
   {
-    if(peca[i].jogador == index && peca[i].trajetoria > 0) {
+    if(peca[i].jogador == index && peca[i].trajetoria > 0 && peca[i].trajetoria + valorDado <= 57) {
       resposta++
     }
   }
@@ -288,6 +296,31 @@ function passarVez(){
   {
     if(jogador[i]) {
       jogadorDaVez = i
+
+      
+      divDado.classList.remove('blue')
+      divDado.classList.remove('red')
+      divDado.classList.remove('green')
+      divDado.classList.remove('yellow')
+      
+
+
+      switch((i+1)%4) {
+        case 0:
+          //divDado.setAttribute("background-color", "blue") 
+          divDado.classList.add("blue")
+        break
+        case 1: 
+          divDado.classList.add("red")
+        break
+        case 2: 
+          divDado.classList.add("green")
+        break
+        case 3: 
+          divDado.classList.add("yellow")
+        break
+      }
+      //dado.classList.add('.blue')
     }
   }
   jogador[jogadorDaVez] = false
@@ -311,21 +344,32 @@ function resetarPosicao(peca) //faz a peça q foi passada pra ela voltar pra hom
 function mesmaCasa(index) {
   let pecasAdvMesmaCasa = []
   let tam = 0
+  //let pecasTotais = 0
 
-  for(let i = 0; i < 16; i++){
+  for(let i = 0; i < peca.length; i++){
+    /*
     if(index != i 
       && peca[index].posicao == peca[i].posicao 
       && peca[index].jogador != peca[i].jogador 
       && seguranca(peca[index].posicao) == false) 
     {
-      pecasAdvMesmaCasa[tam] = peca[i]
-      tam++
+      */
+    if(index != i 
+        && peca[index].posicao == peca[i].posicao 
+        && peca[index].jogador != peca[i].jogador ) 
+      {
+      //pecasTotais++
+        if(seguranca(peca[index].posicao) == false) {
+          pecasAdvMesmaCasa[tam] = peca[i]
+          tam++
 
-        //zerando as peças adversarias q estao na mesma casa, fazendoa-as voltar pra home
-      resetarPosicao(peca[i])
-      console.log(`peça ${index} resetou a peça ${i}. posicao: ${peca[i].posicao}`)
+          //zerando as peças adversarias q estao na mesma casa, fazendoa-as voltar pra home
+          resetarPosicao(peca[i])
+          console.log(`peça ${index} resetou a peça ${i}. posicao: ${peca[i].posicao}`)
+        }
     }
   }
+  reduzirPecas(peca[index].posicao) //reduz o tamanho das pecas de determinada posicao de acordo com a qnt de pecas 
   console.log(`havia ${pecasAdvMesmaCasa.length} peças adversarias na casa: ${peca[index].posicao}. Sao elas: `, pecasAdvMesmaCasa)
 
   if(tam > 0) // nao passa a vez se comer uma peça
@@ -352,11 +396,57 @@ function mesmaCasa(index) {
 }
 
 
+function reduzirPecas(posicao) {
+  let pecasMesmaCasa = []
+  let tam = 0
+
+  peca.forEach(p => {
+    if(p.posicao == posicao) {
+      pecasMesmaCasa[tam] = p
+      tam++
+
+    p.componenteHTML.classList.remove("tam1")
+    p.componenteHTML.classList.remove("tam2")
+    p.componenteHTML.classList.remove("tam3")
+    p.componenteHTML.classList.remove("tam4")
+    }
+  })
+
+
+  if(pecasMesmaCasa.length == 1) {
+    pecasMesmaCasa.forEach(p => {
+      p.componenteHTML.classList.add("tam1")
+    })
+  }
+  if(pecasMesmaCasa.length == 2) {
+    pecasMesmaCasa.forEach(p => {
+      p.componenteHTML.classList.add("tam2")
+    })
+  }
+  if(pecasMesmaCasa.length == 3) {
+    pecasMesmaCasa.forEach(p => {
+      p.componenteHTML.classList.add("tam3")
+    })
+  }
+  if(pecasMesmaCasa.length == 4) {
+    pecasMesmaCasa.forEach(p => {
+      p.componenteHTML.classList.add("tam4")
+    })
+  }
+  if(pecasMesmaCasa.length > 4) {
+    pecasMesmaCasa.forEach(p => {
+      p.componenteHTML.classList.add("tamNone")
+    })
+  }
+}
+
+
+
 function seguranca(posicao){ //returna true se essa casa for safe
   
   let retorno = false
 
-  for(let i = 0; i < 8; i++)
+  for(let i = 0; i < casasSeguras.length; i++)
   {
     if(posicao == casasSeguras[i]) {
       retorno = true

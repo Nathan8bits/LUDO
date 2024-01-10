@@ -10,7 +10,6 @@ export class Peca {
         this._componenteHTML = componenteHTML
         this._posicao = posicao
         this._trajetoria = 0
-        this._livre = false
     }
 
     set jogador(novoJogador) {

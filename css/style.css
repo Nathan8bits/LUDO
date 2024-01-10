@@ -84,27 +84,51 @@ body {
 .iconP {
     display: inline-block;
     padding: 0px;
-    font-size: 200%;
+    
     transform: scale(1);
 }
 
 .iconStar{
     font-size: 200%;
 }
+.tam1 {
+    font-size: 335%;
+}
+
+.tam2{
+    font-size: 230%;
+}
+.tam3{
+    font-size: 180%;
+}
+.tam4{
+    font-size: 175%;
+}
+
+.tamNone{
+    display: none;
+}
 
 #dado{
     width: 30%;
-    height: 100px;
+    height: auto;
     justify-content: center;
     align-items: center;
     margin-top: 20%;
     display: block;
     padding: 10px;
-    background-color: blue;
+    border: 1px solid black;
+    font-size: 30px;
 }
 
 #btnDado{
     display: block;
+    width: 50%;
+    height: auto;
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #cacaca;
 }
 
 table{
