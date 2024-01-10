@@ -9,6 +9,7 @@ var td = document.querySelectorAll("td")
 var pecas = document.querySelectorAll('.iconP')
 
 var trajetoria = [4]
+var casasSeguras = [61, 26, 20, 70, 95, 132, 137, 87, 66]
 
 var jogador = [4]
 
@@ -19,7 +20,6 @@ for(let i = 0; i < 4; i++) {
 jogador[Math.floor((Math.random()*4))] = true
 passarVez()
 
-var casasSeguras = [61, 26, 20, 70, 95, 132, 137, 87, 66]
 
 //trajetoria do azul
 trajetoria[0] = [16, 61, 62, 63, 64, 65, 51, 40, 33, 26, 
@@ -73,25 +73,25 @@ for(let i = 0; i < pecas.length; i++) {
   }
 }
 
-/*  posicionando peças para testes 
-peca[8].trajetoria = 1
+/*  posicionando peças para testes */
+peca[8].trajetoria = 57
 mudarPosicao(8)
 
-peca[12].trajetoria = 1
+peca[12].trajetoria = 57
 mudarPosicao(12)
 
-peca[0].trajetoria = 1
+peca[0].trajetoria = 57
 mudarPosicao(0)
-peca[1].trajetoria = 1
+peca[1].trajetoria = 57
 mudarPosicao(1)
-peca[2].trajetoria = 1
+peca[2].trajetoria = 57
 mudarPosicao(2)
-peca[3].trajetoria = 1
+peca[3].trajetoria = 57
 mudarPosicao(3)
 
 peca[5].trajetoria = 14
 mudarPosicao(5)
-*/
+/**/
 
 console.log(peca, trajetoria, jogador)
 
@@ -369,6 +369,7 @@ function mesmaCasa(index) {
         }
     }
   }
+
   reduzirPecas(peca[index].posicao) //reduz o tamanho das pecas de determinada posicao de acordo com a qnt de pecas 
   console.log(`havia ${pecasAdvMesmaCasa.length} peças adversarias na casa: ${peca[index].posicao}. Sao elas: `, pecasAdvMesmaCasa)
 
@@ -401,7 +402,7 @@ function reduzirPecas(posicao) {
   let tam = 0
 
   peca.forEach(p => {
-    if(p.posicao == posicao) {
+    if(p.posicao == posicao && posicao != 66) {
       pecasMesmaCasa[tam] = p
       tam++
 
