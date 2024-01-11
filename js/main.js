@@ -1,6 +1,6 @@
 import {Peca} from './Peca.js'
 
-var btnDado = document.querySelector("#btnDado")
+//var btnDado = document.querySelector("#btnDado")
 var divDado = document.querySelector("#dado")
 var dado = document.querySelector("#valorDado")
 var valorDado = 0
@@ -74,17 +74,19 @@ for(let i = 0; i < pecas.length; i++) {
 }
 
 /*  posicionando peças para testes 
-
+*/
 peca[8].trajetoria = 1
 mudarPosicao(8)
-
+/*
 peca[9].trajetoria = 1
 mudarPosicao(9)
+/*
 peca[10].trajetoria = 1
 mudarPosicao(10)
-peca[11].trajetoria = 1
+*/
+peca[11].trajetoria = 56
 mudarPosicao(11)
-
+/*
 
 peca[12].trajetoria = 40
 mudarPosicao(12)
@@ -120,7 +122,7 @@ mudarPosicao(6)
 console.log(peca, trajetoria, jogador)
 
  /* -- INICIANDO PECAS -- */
-btnDado.addEventListener('click', function () 
+divDado.addEventListener('click', function () 
 {    
   if(dadoLivre) {
     valorDado = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
@@ -173,9 +175,11 @@ btnDado.addEventListener('click', function ()
     { //move unica peça disponivel
       console.log('so tem uma peça pra mover')
       let p
-      for(let i = 0; i < 16; i++)
+      for(let i = 0; i < peca.length; i++)
       {
-        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
+        if( peca[i].jogador == jogadorDaVez 
+            && peca[i].trajetoria > 0 
+            && peca[i].trajetoria + valorDado <= 57) 
         {
           p = i
         }
@@ -189,7 +193,9 @@ btnDado.addEventListener('click', function ()
       let p
       for(let i = 0; i < peca.length; i++)
       {
-        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0 && peca[i].trajetoria + valorDado <= 57) 
+        if( peca[i].jogador == jogadorDaVez 
+            && peca[i].trajetoria != 0 
+            && peca[i].trajetoria + valorDado <= 57) 
         {
           p = i
         }
