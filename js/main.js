@@ -74,8 +74,10 @@ for(let i = 0; i < pecas.length; i++) {
 }
 
 /*  posicionando peças para testes 
+
 peca[8].trajetoria = 1
 mudarPosicao(8)
+
 peca[9].trajetoria = 1
 mudarPosicao(9)
 peca[10].trajetoria = 1
@@ -83,10 +85,12 @@ mudarPosicao(10)
 peca[11].trajetoria = 1
 mudarPosicao(11)
 
+
 peca[12].trajetoria = 40
 mudarPosicao(12)
 peca[13].trajetoria = 40
 mudarPosicao(13)
+
 peca[14].trajetoria = 40
 mudarPosicao(14)
 peca[15].trajetoria = 40
@@ -98,7 +102,6 @@ peca[1].trajetoria = 27
 mudarPosicao(1)
 peca[2].trajetoria = 27
 mudarPosicao(2)
-
 peca[3].trajetoria = 27
 mudarPosicao(3)
 
@@ -107,6 +110,7 @@ peca[7].trajetoria = 14
 mudarPosicao(7)
 peca[4].trajetoria = 14
 mudarPosicao(4)
+
 peca[5].trajetoria = 14
 mudarPosicao(5)
 peca[6].trajetoria = 14
@@ -121,7 +125,7 @@ btnDado.addEventListener('click', function ()
   if(dadoLivre) {
     valorDado = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
-    //valorDado = 6  //definindo um valor fixo para o dado para testes
+    //valorDado = 1  //definindo um valor fixo para o dado para testes
     dado.innerHTML = valorDado
     dadoLivre = false
     console.log(`clicou btnDado: ${valorDado}. dadoLivre:`, dadoLivre)
@@ -308,6 +312,9 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   }
   //else if(preposicaoF && preposicaoD) {
   else if(preposicaoF && tamD == 0) { //nenhuma peça dentro da Home e todas as peças de fora estao no mesmo lugar
+    return true
+  }
+  else if(tamF >= 1 && valorDado != 6 && preposicaoF) {
     return true
   }
   else if(preposicaoF && tamD > 0 & valorDado == 6) {
