@@ -73,24 +73,44 @@ for(let i = 0; i < pecas.length; i++) {
   }
 }
 
-/*  posicionando peças para testes */
-peca[8].trajetoria = 57
+/*  posicionando peças para testes 
+peca[8].trajetoria = 1
 mudarPosicao(8)
+peca[9].trajetoria = 1
+mudarPosicao(9)
+peca[10].trajetoria = 1
+mudarPosicao(10)
+peca[11].trajetoria = 1
+mudarPosicao(11)
 
-peca[12].trajetoria = 57
+peca[12].trajetoria = 40
 mudarPosicao(12)
+peca[13].trajetoria = 40
+mudarPosicao(13)
+peca[14].trajetoria = 40
+mudarPosicao(14)
+peca[15].trajetoria = 40
+mudarPosicao(15)
 
-peca[0].trajetoria = 57
+peca[0].trajetoria = 27
 mudarPosicao(0)
-peca[1].trajetoria = 57
+peca[1].trajetoria = 27
 mudarPosicao(1)
-peca[2].trajetoria = 57
+peca[2].trajetoria = 27
 mudarPosicao(2)
-peca[3].trajetoria = 57
+
+peca[3].trajetoria = 27
 mudarPosicao(3)
 
+
+peca[7].trajetoria = 14
+mudarPosicao(7)
+peca[4].trajetoria = 14
+mudarPosicao(4)
 peca[5].trajetoria = 14
 mudarPosicao(5)
+peca[6].trajetoria = 14
+mudarPosicao(6)
 /**/
 
 console.log(peca, trajetoria, jogador)
@@ -101,7 +121,7 @@ btnDado.addEventListener('click', function ()
   if(dadoLivre) {
     valorDado = Math.floor((Math.random()*6) + 1) //gerando valor aleatorio entre 1 e 6
   
-    //valorDado = 2  //definindo um valor fixo para o dado para testes
+    //valorDado = 6  //definindo um valor fixo para o dado para testes
     dado.innerHTML = valorDado
     dadoLivre = false
     console.log(`clicou btnDado: ${valorDado}. dadoLivre:`, dadoLivre)
@@ -125,18 +145,25 @@ btnDado.addEventListener('click', function ()
       passarVez()
     }
     else if (jogador[jogadorDaVez] && valorDado == 6 && jogadorPecasDisponivel(jogadorDaVez) == 0) 
-    {//move a prieira peça encontrada
-      console.log('tirei uma peça da home')
-      let p
-      for(let i = 0; i < 16; i++)
+    {//move a primeira peça encontrada na Home
+      
+      let p = -1 //um index que nao existe na matriz peca
+      for(let i = 0; i < peca.length; i++)
       {
-        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria == 0) 
+        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria == 0) //procurando peças na Home
         {
           p = i
         }
       }
-      valorDado = 1 //tirar uma peça da Home
-      mudarPosicao(p)
+
+      if(p >= 0) {
+        valorDado = 1 //tira uma peça da Home
+        console.log('tirei uma peça da home')
+        mudarPosicao(p)
+      } else if (p < 0) {
+        dadoLivre = true
+        passarVez()
+      }
     }
     else if (jogador[jogadorDaVez] && valorDado != 6 && jogadorPecasDisponivel(jogadorDaVez) == 1) 
     { //move unica peça disponivel
@@ -156,15 +183,17 @@ btnDado.addEventListener('click', function ()
     { //move a primeira peça encontrada
       console.log('todas estavam na mesma casa')
       let p
-      for(let i = 0; i < 16; i++)
+      for(let i = 0; i < peca.length; i++)
       {
-        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0) 
+        if(peca[i].jogador == jogadorDaVez && peca[i].trajetoria != 0 && peca[i].trajetoria + valorDado <= 57) 
         {
           p = i
         }
       }
       mudarPosicao(p)
-      passarVez()//passar a vez
+      if(valorDado != 6) {
+        passarVez()//passar a vez
+      }
     }
   }
 })
@@ -192,6 +221,10 @@ for (let index = 0; index < pecas.length; index++)
         mudarPosicao(index)
       }    
       //else if(peca[index].trajetoria != 0 && valorDado != 6) 
+      else if(peca[index].trajetoria + valorDado == 57){ // se a peça movida cehgar no final nao passa a vez
+        mudarPosicao(index)
+      }
+
       else //jogada comum dado != 6 e peça.trajetoria != 0
       {
         mudarPosicao(index)
@@ -226,9 +259,11 @@ function jogadorPecasDisponivel(index) //verifica se o jogador[index]
 {                                      //tem alguma peça com trajeto != 0                   
   let resposta = 0
 
-  for(let i = 0; i < 16; i++)
+  for(let i = 0; i < peca.length; i++)
   {
-    if(peca[i].jogador == index && peca[i].trajetoria > 0 && peca[i].trajetoria + valorDado <= 57) {
+    if( peca[i].jogador == index 
+        && peca[i].trajetoria > 0 
+        && peca[i].trajetoria + valorDado <= 57 ) {
       resposta++
     }
   }
@@ -244,8 +279,11 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   let tamF = 0
   let tamD = 0
   
-  for(let i = 0; i < 16; i++) {
-    if(peca[i].jogador == index && peca[i].trajetoria > 0) 
+  for(let i = 0; i < peca.length; i++) {
+    if( peca[i].jogador == index 
+        && peca[i].trajetoria > 0 
+        && peca[i].trajetoria != 57 
+        && peca[i].trajetoria + valorDado <= 57) 
     {//peças fora
       pF[tamF] = peca[i].trajetoria
       tamF++
@@ -264,13 +302,16 @@ function todasPecasMesmoLugar(index)  //verifca se todas as peças do jogador[in
   //let preposicaoD = pD.every(element => element == d)//verfica se todos os elementos de pD sao iguais a d, return true ou false
   console.log(`há ${pD.length} peças dentro da home`)
 
-  if(jogadorPecasDisponivel(index) == 1) {
-    console.log('so ha uma peça fora da home')
-    return false
+  if(tamF == 1 && tamD > 0 && valorDado != 6) { //mais de uma peça dentro da Home e 1 peça disponivel e dado é diferente de 6
+    console.log('há 1 peça fora da home, pelo menos 1 peça dentro da Home e o dado não deu 6')
+    return true
   }
   //else if(preposicaoF && preposicaoD) {
-  else if(preposicaoF) {
+  else if(preposicaoF && tamD == 0) { //nenhuma peça dentro da Home e todas as peças de fora estao no mesmo lugar
     return true
+  }
+  else if(preposicaoF && tamD > 0 & valorDado == 6) {
+    return false
   }
   else {
     return false
@@ -296,27 +337,24 @@ function passarVez(){
   {
     if(jogador[i]) {
       jogadorDaVez = i
-
       
       divDado.classList.remove('blue')
       divDado.classList.remove('red')
       divDado.classList.remove('green')
       divDado.classList.remove('yellow')
-      
 
-
-      switch((i+1)%4) {
-        case 0:
+      switch(i) {
+        case 3:
           //divDado.setAttribute("background-color", "blue") 
           divDado.classList.add("blue")
         break
-        case 1: 
+        case 0: 
           divDado.classList.add("red")
         break
-        case 2: 
+        case 1: 
           divDado.classList.add("green")
         break
-        case 3: 
+        case 2: 
           divDado.classList.add("yellow")
         break
       }
@@ -365,6 +403,7 @@ function mesmaCasa(index) {
 
           //zerando as peças adversarias q estao na mesma casa, fazendoa-as voltar pra home
           resetarPosicao(peca[i])
+          
           console.log(`peça ${index} resetou a peça ${i}. posicao: ${peca[i].posicao}`)
         }
     }
@@ -373,7 +412,7 @@ function mesmaCasa(index) {
   reduzirPecas(peca[index].posicao) //reduz o tamanho das pecas de determinada posicao de acordo com a qnt de pecas 
   console.log(`havia ${pecasAdvMesmaCasa.length} peças adversarias na casa: ${peca[index].posicao}. Sao elas: `, pecasAdvMesmaCasa)
 
-  if(tam > 0) // nao passa a vez se comer uma peça
+  if(tam > 0 && valorDado != 6) // nao passa a vez se comer uma peça e se o valor do dado for diferente de 6
   {
     console.log('nao passou a vez')
     
@@ -402,7 +441,7 @@ function reduzirPecas(posicao) {
   let tam = 0
 
   peca.forEach(p => {
-    if(p.posicao == posicao && posicao != 66) {
+    if(p.posicao == posicao) {
       pecasMesmaCasa[tam] = p
       tam++
 
@@ -414,30 +453,43 @@ function reduzirPecas(posicao) {
   })
 
 
+  if (pecasMesmaCasa[0].posicao != 66){
+
+  }
   if(pecasMesmaCasa.length == 1) {
     pecasMesmaCasa.forEach(p => {
       p.componenteHTML.classList.add("tam1")
     })
   }
-  if(pecasMesmaCasa.length == 2) {
+  else if(pecasMesmaCasa.length == 2) {
     pecasMesmaCasa.forEach(p => {
       p.componenteHTML.classList.add("tam2")
     })
   }
-  if(pecasMesmaCasa.length == 3) {
+  else if(pecasMesmaCasa.length == 3) {
     pecasMesmaCasa.forEach(p => {
       p.componenteHTML.classList.add("tam3")
     })
   }
-  if(pecasMesmaCasa.length == 4) {
+  else if(pecasMesmaCasa.length == 4) {
     pecasMesmaCasa.forEach(p => {
       p.componenteHTML.classList.add("tam4")
     })
   }
-  if(pecasMesmaCasa.length > 4) {
-    pecasMesmaCasa.forEach(p => {
-      p.componenteHTML.classList.add("tamNone")
-    })
+  else if(pecasMesmaCasa.length > 4) 
+  {
+    if(pecasMesmaCasa[0].posicao != 66) 
+    {
+      pecasMesmaCasa.forEach(p => {
+        p.componenteHTML.classList.add("tamNone")
+      })
+    }
+    else if (pecasMesmaCasa[0].posicao == 66) 
+    {
+      pecasMesmaCasa.forEach(p => {
+        p.componenteHTML.classList.add("tam2")
+      })
+    }
   }
 }
 
