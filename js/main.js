@@ -74,7 +74,7 @@ for(let i = 0; i < pecas.length; i++) {
 }
 
 /*  posicionando peças para testes 
-*/
+
 peca[8].trajetoria = 1
 mudarPosicao(8)
 /*
@@ -83,7 +83,7 @@ mudarPosicao(9)
 /*
 peca[10].trajetoria = 1
 mudarPosicao(10)
-*/
+
 peca[11].trajetoria = 56
 mudarPosicao(11)
 /*
